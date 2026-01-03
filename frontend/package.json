@@ -1,0 +1,14 @@
+{
+  "name": "digital-solutions-frontend",
+  "version": "1.0.0",
+  "description": "Frontend application",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'Frontend dev server - configure your framework'",
+    "build": "echo 'Frontend build - configure your framework'",
+    "start": "echo 'Frontend start - configure your framework'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -6,8 +6,8 @@
 
 ```
 digital-solutions/
-├── backend/          # Backend на Express.js + TypeScript
-├── frontend/         # Frontend (настраивается отдельно)
+├── backend/          # Backend на Express 
+├── frontend/         # Frontend React
 ├── package.json      # Корневой package.json для управления проектом
 └── README.md
 ```
@@ -89,5 +89,5 @@ cd frontend && npm start
 - Node.js
 
 ### Frontend
-- Настраивается отдельно (React, Vue, Angular и т.д.)
+- React
 

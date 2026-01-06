@@ -1,39 +1,36 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import itemsRoutes from './routes/itemsRoutes';
+import { itemsStorage } from './storage/itemsStorage';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
-// Middleware для парсинга JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS для работы с фронтендом
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Client-Id');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Expose-Headers', 'Content-Length, Content-Type');
+
   if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
+    res.status(200).end();
+    return;
   }
+
+  next();
 });
 
-// Базовый маршрут
-app.get('/', (req: Request, res: Response) => {
-  res.json({
-    message: 'Добро пожаловать в Express.js приложение!',
-    status: 'success'
-  });
-});
 
-// API маршрут
-app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
+app.use('/api', itemsRoutes);
 
-// Запуск сервера
+const state = itemsStorage.getState();
+console.log(`Хранилище готово. Максимальный ID: ${state.maxId}, Выбранных элементов: ${state.selectedIds.length}`);
+
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
+  console.log(`API доступно по адресу http://localhost:${PORT}/api`);
 });
 
